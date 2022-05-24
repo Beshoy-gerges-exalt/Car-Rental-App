@@ -1,0 +1,205 @@
+{
+  "info": {
+    "_postman_id": "daacae6f-9200-4e0b-8c50-45371acd70bb",
+    "name": "Car Rental",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21095437"
+  },
+  "item": [
+    {
+      "name": "Get Available Cars",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{ip}}:{{port}}/api/v1/cars",
+          "protocol": "http",
+          "host": [
+            "{{ip}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "api",
+            "v1",
+            "cars"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Response Sample",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{ip}}:{{port}}/api/v1/cars",
+              "protocol": "http",
+              "host": [
+                "{{ip}}"
+              ],
+              "port": "{{port}}",
+              "path": [
+                "api",
+                "v1",
+                "cars"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 23 May 2022 19:08:47 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Lada\",\n        \"customerName\": null,\n        \"rentEndDate\": null\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Marceedes\",\n        \"customerName\": null,\n        \"rentEndDate\": null\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Renault\",\n        \"customerName\": null,\n        \"rentEndDate\": null\n    },\n    {\n        \"id\": 4,\n        \"name\": \"BMW\",\n        \"customerName\": null,\n        \"rentEndDate\": null\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Rent Car",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"carId\": 2,\r\n  \"customerName\": \"Beshoy Gerges\",\r\n  \"rentEndDate\": \"2022-04-30\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://{{ip}}:{{port}}/api/v1/cars/rent",
+          "protocol": "http",
+          "host": [
+            "{{ip}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "api",
+            "v1",
+            "cars",
+            "rent"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Available Cars SOAP",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/xml",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns=\"http://www.rental.car.exalt.com/xml\">\r\n    <soapenv:Header/>\r\n    <soapenv:Body>\r\n        <ns:GetAvailableCarsRequest/>\r\n    </soapenv:Body>\r\n</soapenv:Envelope>",
+          "options": {
+            "raw": {
+              "language": "xml"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://{{ip}}:{{port}}/ws",
+          "protocol": "http",
+          "host": [
+            "{{ip}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "ws"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Rent Car SOAP",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/xml",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns=\"http://www.rental.car.exalt.com/xml\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <ns:RentCarRequest>\r\n         <ns:carId>3</ns:carId>\r\n         <ns:customerName>Beshoy Gerges</ns:customerName>\r\n         <ns:rentEndDate>2022-05-30</ns:rentEndDate>\r\n      </ns:RentCarRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>"
+        },
+        "url": {
+          "raw": "http://{{ip}}:{{port}}/ws",
+          "protocol": "http",
+          "host": [
+            "{{ip}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "ws"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "ip",
+      "value": "localhost",
+      "type": "string"
+    },
+    {
+      "key": "port",
+      "value": "8080",
+      "type": "string"
+    }
+  ]
+}
