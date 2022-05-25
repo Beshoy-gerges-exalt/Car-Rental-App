@@ -1,5 +1,6 @@
 package com.exalt.car.rental.service.impl;
 
+import com.exalt.car.rental.aop.LogElapsedTime;
 import com.exalt.car.rental.dto.CarDto;
 import com.exalt.car.rental.dto.RentCarRequest;
 import com.exalt.car.rental.model.Car;
@@ -24,6 +25,7 @@ public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final ModelMapper modelMapper;
 
+    @LogElapsedTime
     @Transactional
     @Override
     public CarDto rentCar(final RentCarRequest request, Authentication authentication) {
@@ -53,6 +55,7 @@ public class CarServiceImpl implements CarService {
         return (String) jwt.getClaims().get("email");
     }
 
+    @LogElapsedTime
     @Override
     public List<CarDto> getAvailableCars() {
         return carRepository.findAllByRentEndDate(null).stream().map(car -> modelMapper.map(car, CarDto.class)).collect(Collectors.toList());
