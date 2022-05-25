@@ -6,6 +6,7 @@ import com.exalt.car.rental.util.DateUtil;
 import com.exalt.car.rental.xml.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -30,8 +31,7 @@ public class CarEndpoint {
 
         CarDto carDto = carService.rentCar(com.exalt.car.rental.dto.RentCarRequest.builder()
                 .carId(request.getCarId())
-                .customerName(request.getCustomerName())
-                .rentEndDate(DateUtil.convert(request.getRentEndDate())).build());
+                .rentEndDate(DateUtil.convert(request.getRentEndDate())).build(), SecurityContextHolder.getContext().getAuthentication());
 
         response.setId(carDto.getId());
         response.setCustomerName(carDto.getCustomerName());

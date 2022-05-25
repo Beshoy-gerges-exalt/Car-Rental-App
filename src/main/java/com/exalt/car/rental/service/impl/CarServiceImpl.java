@@ -7,6 +7,8 @@ import com.exalt.car.rental.repository.CarRepository;
 import com.exalt.car.rental.service.CarService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,7 @@ public class CarServiceImpl implements CarService {
 
     @Transactional
     @Override
-    public CarDto rentCar(final RentCarRequest request) {
+    public CarDto rentCar(final RentCarRequest request, Authentication authentication) {
         Car car = carRepository.findById(request.getCarId()).orElseThrow(() -> new RuntimeException("Car not exist"));
 
         if (Objects.nonNull(car.getRentEndDate())
@@ -35,13 +37,20 @@ public class CarServiceImpl implements CarService {
         if (request.getRentEndDate().isBefore(LocalDate.now()))
             throw new RuntimeException("Rent end date should be today or any future date");
 
-        car.setCustomerName(request.getCustomerName());
+        car.setCustomerName(getLoggedInUsername(authentication));
 
         car.setRentEndDate(request.getRentEndDate());
 
         carRepository.save(car);
 
         return modelMapper.map(car, CarDto.class);
+    }
+
+    private String getLoggedInUsername(Authentication authentication) {
+        if (!(authentication.getPrincipal() instanceof Jwt))
+            throw new RuntimeException("Can't get user data");
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        return (String) jwt.getClaims().get("email");
     }
 
     @Override
