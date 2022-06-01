@@ -4,7 +4,8 @@ import com.exalt.car.rental.aop.LogElapsedTime;
 import com.exalt.car.rental.dto.CarDto;
 import com.exalt.car.rental.dto.RentCarRequest;
 import com.exalt.car.rental.model.Car;
-import com.exalt.car.rental.repository.CarRepository;
+import com.exalt.car.rental.repository.es.CarEsRepository;
+import com.exalt.car.rental.repository.sql.CarRepository;
 import com.exalt.car.rental.service.CarService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
+    private final CarEsRepository carEsRepository;
     private final ModelMapper modelMapper;
 
     @LogElapsedTime
@@ -58,6 +60,6 @@ public class CarServiceImpl implements CarService {
     @LogElapsedTime
     @Override
     public List<CarDto> getAvailableCars() {
-        return carRepository.findAllByRentEndDate(null).stream().map(car -> modelMapper.map(car, CarDto.class)).collect(Collectors.toList());
+        return carEsRepository.findAllByRentEndDate(null).stream().map(car -> modelMapper.map(car, CarDto.class)).collect(Collectors.toList());
     }
 }
