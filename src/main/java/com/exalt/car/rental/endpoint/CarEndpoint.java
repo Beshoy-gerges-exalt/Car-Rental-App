@@ -34,7 +34,7 @@ public class CarEndpoint {
                 .rentEndDate(DateUtil.convert(request.getRentEndDate())).build(), SecurityContextHolder.getContext().getAuthentication());
 
         response.setId(carDto.getId());
-        response.setCustomerName(carDto.getCustomerName());
+//        response.setCustomerName(carDto.getCustomerName());
         response.setRentEndDate(DateUtil.convert(carDto.getRentEndDate()));
         return response;
     }
@@ -46,7 +46,7 @@ public class CarEndpoint {
 
         List<Car> cars = carService.getAvailableCars().stream().map(carDto -> modelMapper.map(carDto, Car.class)).collect(Collectors.toList());
 
-        response.setCar(cars);
+        response.setCars(cars);
 
         return response;
     }

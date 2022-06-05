@@ -7,8 +7,18 @@
   },
   "item": [
     {
-      "name": "Get Available Cars",
+      "name": "Get Availables Cars",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -78,11 +88,21 @@
     {
       "name": "Rent Car",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "POST",
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"carId\": 2,\r\n  \"customerName\": \"Beshoy Gerges\",\r\n  \"rentEndDate\": \"2022-04-30\"\r\n}",
+          "raw": "{\r\n  \"carId\": 3,\r\n  \"rentEndDate\": \"2022-06-30\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -109,6 +129,16 @@
     {
       "name": "Get Available Cars SOAP",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "POST",
         "header": [
           {
@@ -143,6 +173,16 @@
     {
       "name": "Rent Car SOAP",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "POST",
         "header": [
           {
@@ -153,7 +193,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns=\"http://www.rental.car.exalt.com/xml\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <ns:RentCarRequest>\r\n         <ns:carId>3</ns:carId>\r\n         <ns:customerName>Beshoy Gerges</ns:customerName>\r\n         <ns:rentEndDate>2022-05-30</ns:rentEndDate>\r\n      </ns:RentCarRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>"
+          "raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns=\"http://www.rental.car.exalt.com/xml\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <ns:RentCarRequest>\r\n         <ns:carId>4</ns:carId>\r\n         <ns:rentEndDate>2022-05-30</ns:rentEndDate>\r\n      </ns:RentCarRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>"
         },
         "url": {
           "raw": "http://{{ip}}:{{port}}/ws",
@@ -164,6 +204,96 @@
           "port": "{{port}}",
           "path": [
             "ws"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "request": {
+        "auth": {
+          "type": "oauth2",
+          "oauth2": [
+            {
+              "key": "redirect_uri",
+              "value": "https://www.getpostman.com/oauth2/callback",
+              "type": "string"
+            },
+            {
+              "key": "tokenName",
+              "value": "Google OAuth getpostman",
+              "type": "string"
+            },
+            {
+              "key": "scope",
+              "value": "openid profile email",
+              "type": "string"
+            },
+            {
+              "key": "clientId",
+              "value": "175394717124-mfbf9a34tik5tqrbkr9vji22nq4014es.apps.googleusercontent.com",
+              "type": "string"
+            },
+            {
+              "key": "authUrl",
+              "value": "https://accounts.google.com/o/oauth2/auth",
+              "type": "string"
+            },
+            {
+              "key": "clientSecret",
+              "value": "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",
+              "type": "string"
+            },
+            {
+              "key": "accessTokenUrl",
+              "value": "https://oauth2.googleapis.com/token",
+              "type": "string"
+            },
+            {
+              "key": "addTokenTo",
+              "value": "header",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Search Customers",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{ip}}:{{port}}/api/v1/customers?name=gerges",
+          "protocol": "http",
+          "host": [
+            "{{ip}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "api",
+            "v1",
+            "customers"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "gerges"
+            }
           ]
         }
       },
@@ -199,6 +329,11 @@
     {
       "key": "port",
       "value": "8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ4NmYxNjQ4MjAwNWEyY2RhZjI2ZDkyMTQwMThkMDI5Y2E0NmZiNTYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxNzUzOTQ3MTcxMjQtbWZiZjlhMzR0aWs1dHFyYmtyOXZqaTIybnE0MDE0ZXMuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIxNzUzOTQ3MTcxMjQtbWZiZjlhMzR0aWs1dHFyYmtyOXZqaTIybnE0MDE0ZXMuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTE1NjgwNjQxNjQ5MzI2MzE0NTIiLCJoZCI6ImV4YWx0LnBzIiwiZW1haWwiOiJiZXNob3kuZ2VyZ2VzQGV4YWx0LnBzIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJSZVlKZXVpNVFxczE4YU1nQUJhMnZBIiwibmFtZSI6IkJlc2hveSBHZXJnZXMiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUFUWEFKeFNQM3NLTFliT2NNWFhXMjNBTkNZZVRUQjlxaF9kRWhXX0s3MnE9czk2LWMiLCJnaXZlbl9uYW1lIjoiQmVzaG95IiwiZmFtaWx5X25hbWUiOiJHZXJnZXMiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTY1MzUwNzE1NywiZXhwIjoxNjUzNTEwNzU3fQ.PpoZPiI5ZT7Sk17DgFchaH1JGvjnayhwjgjzEH4kY6efcy5NZiQInw7TVUghoF9RJj0TWIT_XeWy1kQeTydJxYL09W02M4Vt8zrG3ysHUcMIJd-N-hOwKvA69tRVvBDsOLW1bXCuO_q3BgW_LBG7uHYqAna0mMMd7M3cF1N4rS-JdP9FwiSeAKY3wU4V0UaFa7LtpkiefCu_ZCMiLETMiscYxG8x_Jml1eGhhR2YC00AlTmDL5E7cQwuNUMS_h-YxjxdYPjxcJPP8wtat7FTNqZHBw4Vl1v7V9SEsNxfDaSyqWMIkOkigiqAhG7vKQ4QNUU9V4O4klOzFW33BEtPcg",
       "type": "string"
     }
   ]

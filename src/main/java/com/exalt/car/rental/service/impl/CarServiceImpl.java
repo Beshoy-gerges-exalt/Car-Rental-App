@@ -4,8 +4,11 @@ import com.exalt.car.rental.aop.LogElapsedTime;
 import com.exalt.car.rental.dto.CarDto;
 import com.exalt.car.rental.dto.RentCarRequest;
 import com.exalt.car.rental.model.Car;
+import com.exalt.car.rental.model.Customer;
 import com.exalt.car.rental.repository.es.CarEsRepository;
+import com.exalt.car.rental.repository.es.CustomerEsRepository;
 import com.exalt.car.rental.repository.sql.CarRepository;
+import com.exalt.car.rental.repository.sql.CustomerRepository;
 import com.exalt.car.rental.service.CarService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -25,6 +28,9 @@ public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
     private final CarEsRepository carEsRepository;
+    private final CustomerRepository customerRepository;
+
+    private final CustomerEsRepository customerEsRepository;
     private final ModelMapper modelMapper;
 
     @LogElapsedTime
@@ -41,20 +47,34 @@ public class CarServiceImpl implements CarService {
         if (request.getRentEndDate().isBefore(LocalDate.now()))
             throw new RuntimeException("Rent end date should be today or any future date");
 
-        car.setCustomerName(getLoggedInUsername(authentication));
+        Customer customer = getLoggedInCustomer(authentication);
+
+        car.setCustomer(customer);
 
         car.setRentEndDate(request.getRentEndDate());
 
         carRepository.save(car);
 
+        carEsRepository.save(car);
+
+        if (customerEsRepository.findByEmail(customer.getEmail()).isPresent())
+            customerEsRepository.save(customer);
+
         return modelMapper.map(car, CarDto.class);
     }
 
-    private String getLoggedInUsername(Authentication authentication) {
+    private Customer getLoggedInCustomer(Authentication authentication) {
         if (!(authentication.getPrincipal() instanceof Jwt))
             throw new RuntimeException("Can't get user data");
         Jwt jwt = (Jwt) authentication.getPrincipal();
-        return (String) jwt.getClaims().get("email");
+        String email = (String) jwt.getClaims().get("email");
+        return customerRepository.findByEmail(email).orElseGet(() -> {
+            Customer cutomer = new Customer();
+            cutomer.setEmail(email);
+            cutomer.setName((String) jwt.getClaims().get("name"));
+            return customerRepository.save(cutomer);
+        });
+
     }
 
     @LogElapsedTime

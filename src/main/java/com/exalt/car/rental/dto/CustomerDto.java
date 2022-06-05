@@ -3,13 +3,10 @@ package com.exalt.car.rental.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
-public class CarDto {
+public class CustomerDto {
     private Integer id;
     private String name;
-    private CustomerDto customer;
-    private LocalDate rentEndDate;
+    private String email;
 }

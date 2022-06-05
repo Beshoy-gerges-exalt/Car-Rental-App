@@ -5,7 +5,6 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="carId" type="xs:int"/>
-                <xs:element name="customerName" type="xs:string"/>
                 <xs:element name="rentEndDate" type="xs:date"/>
             </xs:sequence>
         </xs:complexType>
@@ -16,7 +15,7 @@
             <xs:sequence>
                 <xs:element name="id" type="xs:int"/>
                 <xs:element name="name" type="xs:string"/>
-                <xs:element name="customerName" type="xs:string"/>
+                <xs:element name="customer" type="tns:Customer"/>
                 <xs:element name="rentEndDate" type="xs:date"/>
             </xs:sequence>
         </xs:complexType>
@@ -33,7 +32,7 @@
 
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="car" type="tns:Car" maxOccurs="unbounded"/>
+                <xs:element name="cars" type="tns:Car" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -42,8 +41,16 @@
         <xs:sequence>
             <xs:element name="id" type="xs:int"/>
             <xs:element name="name" type="xs:string"/>
-            <xs:element name="customerName" type="xs:string"/>
+            <xs:element name="customer" type="tns:Customer"/>
             <xs:element name="rentEndDate" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Customer">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="email" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 
